@@ -174,6 +174,7 @@ const Upload = () => {
 
       <footer>
         <div className="w-full max-w-3xl px-3 mx-auto">
+          512 MB size limit per file
         </div>
       </footer>
     </div>
