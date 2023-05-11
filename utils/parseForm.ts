@@ -11,10 +11,11 @@ export const parseForm = async (
   req: NextApiRequest
 ): Promise<{ fields: formidable.Fields; files: formidable.Files }> => {
   return new Promise(async (resolve, reject) => {
-    const uploadDir = join(
-      process.env.ROOT_DIR || process.cwd(),
-      `/tmp/`
-    );
+    // const uploadDir = join(
+    //   process.env.ROOT_DIR || process.cwd(),
+    //   `/tmp/`
+    // );
+    const uploadDir = `/tmp/`
 
     try {
       await stat(uploadDir);
