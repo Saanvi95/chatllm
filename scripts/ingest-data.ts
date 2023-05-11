@@ -7,7 +7,12 @@ import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 
 /* Name of directory to retrieve your files from */
-const filePath = '/tmp';
+let filePath = ''
+if (process.env.VERCEL_ENV) {
+  filePath = '/tmp';
+} else {
+  filePath = 'docs';
+}
 
 export const run = async () => {
   try {

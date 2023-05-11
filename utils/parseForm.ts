@@ -11,11 +11,15 @@ export const parseForm = async (
   req: NextApiRequest
 ): Promise<{ fields: formidable.Fields; files: formidable.Files }> => {
   return new Promise(async (resolve, reject) => {
-    // const uploadDir = join(
-    //   process.env.ROOT_DIR || process.cwd(),
-    //   `/tmp/`
-    // );
-    const uploadDir = `/tmp/`
+    let uploadDir = '';
+    if (process.env.VERCEL_ENV) {
+      uploadDir = `/tmp/`
+    } else {
+      uploadDir = join(
+        process.env.ROOT_DIR || process.cwd(),
+        `/docs/`
+      );
+    }
 
     try {
       await stat(uploadDir);
@@ -31,7 +35,7 @@ export const parseForm = async (
 
     const form = formidable({
       maxFiles: 2,
-      maxFileSize: 1024 * 1024, // 1mb
+      maxFileSize: 1024 * 1024 * 512, // 512mb
       uploadDir,
       filename: (_name, _ext, part) => {
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
