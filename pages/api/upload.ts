@@ -1,3 +1,4 @@
+import { run } from "@/scripts/ingest-data";
 import { FormidableError, parseForm } from "@/utils/parseForm";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -21,10 +22,12 @@ const handler = async (
 
   try {
     const { fields, files } = await parseForm(req);
-    
+
     const file = files.media;
+
+    await run()
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
-  
+
     res.status(200).json({
       data: {
         url,
@@ -39,13 +42,6 @@ const handler = async (
       res.status(500).json({ data: null, error: "Internal Server Error" });
     }
   }
-
-  res.status(200).json({
-    data: {
-      url: "/uploaded-file-url",
-    },
-    error: null,
-  });
 }
 
 export const config = {

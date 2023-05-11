@@ -13,7 +13,7 @@ export const parseForm = async (
   return new Promise(async (resolve, reject) => {
     const uploadDir = join(
       process.env.ROOT_DIR || process.cwd(),
-      `/uploads/${dateFn.format(Date.now(), "dd-MM-Y")}`
+      `/docs/`
     );
 
     try {
@@ -34,14 +34,13 @@ export const parseForm = async (
       uploadDir,
       filename: (_name, _ext, part) => {
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        const filename = `${part.name || "unknown"}-${uniqueSuffix}.${
-          mime.getExtension(part.mimetype || "") || "unknown"
-        }`;
+        const filename = `${part.name || "unknown"}-${uniqueSuffix}.${mime.getExtension(part.mimetype || "") || "unknown"
+          }`;
         return filename;
       },
       filter: (part) => {
         return (
-          part.name === "media" && (part.mimetype?.includes("image") || false)
+          part.name === "media" && (part.mimetype?.includes("application/pdf") || false)
         );
       },
     });
